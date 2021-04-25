@@ -1,2 +1,4 @@
 # SSEFinder
-Group Project for COMP3297
+Group Project for COMP3297 by Group R
+
+
