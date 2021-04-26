@@ -10,8 +10,8 @@ def user_authentication(request):
  
  
 # Geodata Store API
-venue_name = input('Enter the venue name: ')
-venue_location = input('Enter the location name: ')
+venue_name = 'Kam Lok Hin Chicken and Fish Pot'
+venue_location = 'Conwell Mansion'
 api_endpoint = 'https://geodata.gov.hk/gs/api/v1.0.0/locationSearch?q='
 querystring = quote(f'{venue_name} {venue_location}')
 #print(api_endpoint + querystring)
