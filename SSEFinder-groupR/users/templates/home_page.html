@@ -5,3 +5,7 @@
     <li> Case ID: {{case.case_no}}</li>
   </ul>
 {% endfor %}
+
+<form action="{% url 'add_case' %}" method="get">
+    <input style="font-size:300%;" type="submit" value="click to add new case">
+</form>
