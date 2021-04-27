@@ -18,10 +18,6 @@ class home_page_view(ListView):
     model = Case
     template_name = 'home_page.html'
 
-    def get_queryset(self):
-        object = Case.objects.all()
-        return object
-
 
 def add_case_view(request):
     # If this is a POST request then process the Form data
