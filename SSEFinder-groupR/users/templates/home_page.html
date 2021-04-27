@@ -1,10 +1,13 @@
 <h1> Home Page </h1>
 
-{% for location in object_list %}
-  <ul>
-    <li> Case ID: {{case.case_no}}</li>
-  </ul>
-{% endfor %}
+  {% for case in object_list %}
+  <li>Case ID: {{ case.case_no }}</li>
+
+  <hr/>
+  {% empty %}
+  <li>No case is recorded</li>
+  {% endfor %}
+
 
 <form action="{% url 'add_case' %}" method="get">
     <input style="font-size:300%;" type="submit" value="click to add new case">
