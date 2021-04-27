@@ -8,7 +8,7 @@ class Users(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email_ad = models.CharField(max_length=500)
-    
+
     def __str__(self):
         return self.username
 
@@ -27,8 +27,8 @@ class Event(models.Model):
     name = models.CharField(max_length=500)
     location = models.CharField(max_length=500)
     address = models.CharField(max_length=1000)
-    x_coor = models.DecimalField(max_digits=7, decimal_places=3)
-    y_coor = models.DecimalField(max_digits=7, decimal_places=3)
+    x_coor = models.DecimalField(max_digits=10, decimal_places=3)
+    y_coor = models.DecimalField(max_digits=10, decimal_places=3)
     event_date = models.DateField()
     description = models.CharField(max_length=1000)
 
