@@ -21,7 +21,7 @@ class Case(models.Model):
     confirm_date = models.DateField()
 
     def __str__(self):
-        return self.case_no
+        return str(self.case_no)
 
 class Event(models.Model):
     name = models.CharField(max_length=500)
