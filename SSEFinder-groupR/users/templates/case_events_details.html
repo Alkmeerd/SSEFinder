@@ -1,6 +1,7 @@
-<h1>Showing all events by {{ case }}</h1>
+<h1>Showing all events by case number {{ case }}</h1>
+
 <form action="{% url 'add_event' %}" method="get">
-    <input style="font-size:300%;" type="submit" value="Click to add more Events visited by case">
+    <input style="font-size:100%;" type="submit" value="Click to add more Events visited by case">
 </form>
 <form action="{% url 'home' %}" method="get">
     <input style="font-size:300%;" type="submit" value="Click to return to Homepage">
