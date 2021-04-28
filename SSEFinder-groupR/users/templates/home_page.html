@@ -2,9 +2,13 @@
 
   {% for case in object_list %}
   <a href="{% url 'case_events_details' case %}">
-    <li>Case ID: {{ case.case_no }}</li>
+    <h3>Case ID: {{ case.case_no }}</h3>
   </a>
     <li>Person's Name: {{ case.name }}</li>
+    <li>Identity Document Number: {{ case.id_num }}</li>
+    <li>Date of Birth: {{ case.dob }}</li>
+    <li>Date of Onset: {{ case.symp_date }}</li>
+    <li>Date of Case Confirmed: {{ case.confirm_date }}</li>
 
 
   <hr/>
