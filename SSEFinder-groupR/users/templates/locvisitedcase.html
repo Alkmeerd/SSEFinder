@@ -1,9 +1,0 @@
-<h1>Showing all events by {{ case.case_no }}</h1>
-<ul>
-{% for event in event_list %}
-  <li>[{{ event.name }}] {{ event.location }}
-  </li>
-  {% empty %}
-    <li>No events visited by case.</li>
-{% endfor %}
-</ul>
