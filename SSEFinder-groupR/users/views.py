@@ -17,7 +17,8 @@ def user_authentication(request):
 class home_page_view(ListView):
     model = Case
     template_name = 'home_page.html'
-
+class ViewLocCase(TemplateView):
+    
 
 def add_case_view(request):
     # If this is a POST request then process the Form data
