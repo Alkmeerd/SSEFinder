@@ -24,6 +24,7 @@ class Case(models.Model):
         return str(self.case_no)
 
 class Event(models.Model):
+
     name = models.CharField(max_length=500)
     location = models.CharField(max_length=500)
     address = models.CharField(max_length=1000)
