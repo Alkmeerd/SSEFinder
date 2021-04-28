@@ -19,12 +19,12 @@ class home_page_view(ListView):
     template_name = 'home_page.html'
 
 class ViewLocCase(TemplateView):
-    template_name = "locvisitedcase.html"
+    template_name = "case_events_details.html"
     def get_context_data(self, **kwargs):
         case_no = self.kwargs['case_no']
 
         context = super().get_context_data(**kwargs)
-        context['locvisitedcase'] = Event.objects.filter(case = case_no)
+        context['case_events_details'] = Event.objects.filter(case = Case.case_no)
         return context
 
 def add_case_view(request):
@@ -122,16 +122,3 @@ class success_view(TemplateView):
 
 class error_view(TemplateView):
     template_name = 'error.html'
-
-class view_case_details(TemplateView):
-    template_name = 'case_events_details.html'
-
-    def get_context_data(self, **kwargs):
-
-        case = self.kwargs['case']
-
-        context = super().get_context_data(**kwargs)
-        context['events_list'] = Event.objects.filter(case__pk = case)
-        context['case'] = Case.objects.get(pk = case)
-
-        return context
