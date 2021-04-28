@@ -1,8 +1,13 @@
 <h1>Showing all events by {{ case }}</h1>
 <ul>
 {% for event in case_events_details %}
-  <li>[{{ event.name }}] {{ event.location }}
-  </li>
+  <h3>Event Name: {{ event.name }} </h3>
+  <ul>Location: {{ event.location }}</ul>
+  <ul>Address: {{ event.address }}</ul>
+  <ul>Y-Coordinate: {{ event.x_coor }}</ul>
+  <ul>X-Coordinate: {{ event.y_coor }}</ul>
+  <ul>Date of Event: {{ event.event_date }}</ul>
+  <ul>Description: {{ event.description }}</ul>
   {% empty %}
     <li>No events visited by case.</li>
 {% endfor %}
