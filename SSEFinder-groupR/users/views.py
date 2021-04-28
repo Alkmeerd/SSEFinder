@@ -17,8 +17,15 @@ def user_authentication(request):
 class home_page_view(ListView):
     model = Case
     template_name = 'home_page.html'
+
 class ViewLocCase(TemplateView):
     template_name = "locvisitedcase.html"
+    def get_context_data(self, **kwargs):
+        case_no = self.kwargs['case_no']
+
+        context = super().get_context_data(**kwargs)
+        context['locvisitedcase'] = Event.objects.filter(case = case_no)
+        return context
 
 def add_case_view(request):
     # If this is a POST request then process the Form data
@@ -128,4 +135,3 @@ class view_case_details(TemplateView):
         context['case'] = Case.objects.get(pk = case)
 
         return context
-    
