@@ -116,7 +116,7 @@ class error_view(TemplateView):
     template_name = 'error.html'
 
 class view_case_details(TemplateView):
-    template_name = 'case_details.html'
+    template_name = 'case_events_details.html'
 
     def get_context_data(self, **kwargs):
 
