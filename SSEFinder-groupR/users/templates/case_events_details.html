@@ -1,4 +1,7 @@
 <h1>Showing all events by {{ case }}</h1>
+<form action="{% url 'add_event' %}" method="get">
+    <input style="font-size:300%;" type="submit" value="Click to add more Events visited by case">
+</form>
 <ul>
 {% for event in case_events_details %}
   <h3>Event Name: {{ event.name }} </h3>
@@ -12,6 +15,3 @@
     <li>No events visited by case.</li>
 {% endfor %}
 </ul>
-<form action="{% url 'add_event' %}" method="get">
-    <input style="font-size:300%;" type="submit" value="Click to add more Events visited by case">
-</form>
