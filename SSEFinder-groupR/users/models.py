@@ -33,6 +33,7 @@ class Event(models.Model):
     event_date = models.DateField()
     description = models.CharField(max_length=1000)
 
-    case = models.ForeignKey(Case, on_delete=models.CASCADE)
+    case = models.ManyToManyField(Case)
+
     def __str__(self):
         return self.name
