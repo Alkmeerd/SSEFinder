@@ -1,7 +1,23 @@
-<h1>Showing all events by {{ case }}</h1>
+<h1>Showing all events by case number {{ case }}</h1>
+
 <form action="{% url 'add_event' %}" method="get">
-    <input style="font-size:300%;" type="submit" value="Click to add more Events visited by case">
+    <input style="font-size:100%;" type="submit" value="Click to add more Events visited by case">
 </form>
+
+<form action="{% url 'home' %}" method="get">
+    <input style="font-size:100%;" type="submit" value="Return to Home Page">
+</form>
+
+<h3>Case ID: {{ case.case_no }}</h3>
+  </a>
+    <ul>Person's Name: {{ case.name }}</ul>
+    <ul>Identity Document Number: {{ case.id_num }}</ul>
+    <ul>Date of Birth: {{ case.dob }}</ul>
+    <ul>Date of Onset: {{ case.symp_date }}</ul>
+    <ul>Date of Case Confirmed: {{ case.confirm_date }}</ul>
+
+<h3>List of Events for this case </h3> 
+
 <ul>
 {% for event in case_events_details %}
   <h3>Event Name: {{ event.name }} </h3>
