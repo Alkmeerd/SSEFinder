@@ -1,6 +1,6 @@
 <h1>Showing all events by {{ case }}</h1>
 <ul>
-{% for event in event_list %}
+{% for event in case_events_details %}
   <li>[{{ event.name }}] {{ event.location }}
   </li>
   {% empty %}
