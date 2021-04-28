@@ -3,5 +3,6 @@
 {% for event in event_list %}
   <li>[{{ event.name }}] {{ event.location }}
   </li>
-
+  {% empty %}
+    <li>No events visited by case.</li>
 {% endfor %}
