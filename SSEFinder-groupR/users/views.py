@@ -44,6 +44,8 @@ def add_case_view(request):
             new_case = Case(case_no=case_no, name=name, id_num=id_num,
             dob=dob, symp_date=symp_date, confirm_date=confirm_date)
 
+            
+
             try:
                 new_case.save()
                 return HttpResponseRedirect(reverse('success'))
@@ -62,8 +64,6 @@ def add_case_view(request):
     return render(request, 'add_case.html', context)
 
 
-
-
 def add_event_view(request):
 
     # If this is a POST request then process the Form data
@@ -78,6 +78,7 @@ def add_event_view(request):
             location = form.cleaned_data.get('location')
             event_date = form.cleaned_data.get('event_date')
             description = form.cleaned_data.get('description')
+            cases = form.cleaned_data.get('cases')
 
             api_endpoint = 'https://geodata.gov.hk/gs/api/v1.0.0/locationSearch?q='
             querystring = quote(f'{name} {location}')
@@ -94,8 +95,9 @@ def add_event_view(request):
                 new_event = Event(name=name, location=location,
                 address=address, x_coor=x_coor, y_coor=y_coor,
                 event_date=event_date, description=description)
-                print([i for i in range(100)])
-
+                
+                new_event.save()
+                new_event.case.add(*cases)
                 new_event.save()
                 #return HttpResponseRedirect(reverse('find'))
 

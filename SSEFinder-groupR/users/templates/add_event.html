@@ -1,7 +1,7 @@
 <h1> Add Event </h1>
 
 <form action="" method="post">
+    {{ form.as_p }}
     {% csrf_token %}
-    {{ form }}
     <br><br> <input style="font-size:100%;" type="submit" value="Add">
 </form>
