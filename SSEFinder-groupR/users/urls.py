@@ -10,4 +10,6 @@ urlpatterns = [
     path('add_event/', views.add_event_view, name='add_event'),
     path('success/', views.success_view.as_view(), name='success'),
     path('error/', views.error_view.as_view(), name='error'),
+
+    path('case_details/<int:case>', views.view_case_details.as_view(), name='case_details'),
 ]

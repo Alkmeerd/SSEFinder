@@ -115,3 +115,17 @@ class success_view(TemplateView):
 
 class error_view(TemplateView):
     template_name = 'error.html'
+
+class view_case_details(TemplateView):
+    template_name = 'case_events_details.html'
+
+    def get_context_data(self, **kwargs):
+
+        case = self.kwargs['case']
+
+        context = super().get_context_data(**kwargs)
+        context['events_list'] = Event.objects.filter(case__pk = case)
+        context['case'] = Case.objects.get(pk = case)
+
+        return context
+    
