@@ -4,6 +4,8 @@
   <a href="{% url 'case_events_details' case %}">
     <li>Case ID: {{ case.case_no }}</li>
   </a>
+    <li>Person's Name: {{ case.name }}</li>
+
 
   <hr/>
   {% empty %}
