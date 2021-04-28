@@ -11,7 +11,7 @@ class add_case_form(forms.Form):
     symp_date = forms.DateField(label = mark_safe('Date of onset of symptoms (yyyy-mm-dd)'))
     confirm_date = forms.DateField(label = mark_safe('ate of confirmation by testing (yyyy-mm-dd)'))
     
-    events = forms.ModelMultipleChoiceField(queryset=Event.objects.all(), widget=forms.CheckboxSelectMultiple)
+    events = forms.ModelMultipleChoiceField(queryset=Event.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
 
 
 class add_event_form(forms.Form):

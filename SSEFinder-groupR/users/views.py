@@ -102,12 +102,15 @@ def add_event_view(request):
                 new_event.save()
                 new_event.case.add(*cases)
                 new_event.save()
-                #return HttpResponseRedirect(reverse('find'))
 
-                #return HttpResponseRedirect(reverse('error'))
+                try:
+                    new_event.save()
+                    return HttpResponseRedirect(reverse('success'))
+                except:
+                    return HttpResponseRedirect(reverse('error'))
 
-            #else:
-                #return HttpResponseRedirect(reverse('error'))
+        else:
+            return HttpResponseRedirect(reverse('error'))
 
         #else:
             #return HttpResponseRedirect(reverse('error'))
