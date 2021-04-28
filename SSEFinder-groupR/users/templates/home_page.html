@@ -1,7 +1,9 @@
 <h1> Home Page </h1>
 
   {% for case in object_list %}
-  <li>Case ID: {{ case.case_no }}</li>
+  <a href="{% url 'case_events_details' case %}">
+    <li>Case ID: {{ case.case_no }}</li>
+  </a>
 
   <hr/>
   {% empty %}
