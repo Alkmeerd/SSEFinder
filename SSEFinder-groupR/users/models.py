@@ -13,9 +13,9 @@ class Users(models.Model):
         return self.username
 
 class Case(models.Model):
-    case_no = models.IntegerField(primary_key=True, unique = True)
+    case_no = models.IntegerField(primary_key=True, unique=True)
     name = models.CharField(max_length=200)
-    id_num = models.CharField(max_length=9, unique = True)
+    id_num = models.CharField(max_length=9, unique=True)
     dob = models.DateField()
     symp_date = models.DateField()
     confirm_date = models.DateField()

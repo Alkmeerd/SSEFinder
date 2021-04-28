@@ -109,11 +109,11 @@ def add_event_view(request):
                 except:
                     return HttpResponseRedirect(reverse('error'))
 
+            else:
+                return HttpResponseRedirect(reverse('error'))
+
         else:
             return HttpResponseRedirect(reverse('error'))
-
-        #else:
-            #return HttpResponseRedirect(reverse('error'))
 
 
     # If this is a GET (or any other method) then create the default form.
