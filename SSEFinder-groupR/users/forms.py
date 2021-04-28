@@ -9,7 +9,7 @@ class add_case_form(forms.Form):
     id_num = forms.CharField(label = mark_safe('Identification Document Number'))
     dob = forms.DateField(label = mark_safe('Date of Birth (yyyy-mm-dd)'))
     symp_date = forms.DateField(label = mark_safe('Date of onset of symptoms (yyyy-mm-dd)'))
-    confirm_date = forms.DateField(label = mark_safe('ate of confirmation by testing (yyyy-mm-dd)'))
+    confirm_date = forms.DateField(label = mark_safe('Date of confirmation by testing (yyyy-mm-dd)'))
     
     events = forms.ModelMultipleChoiceField(queryset=Event.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
 
