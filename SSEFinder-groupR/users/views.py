@@ -40,12 +40,15 @@ def add_case_view(request):
             dob = form.cleaned_data.get('dob')
             symp_date = form.cleaned_data.get('symp_date')
             confirm_date = form.cleaned_data.get('confirm_date')
+            events = form.cleaned_data.get('events')
 
             new_case = Case(case_no=case_no, name=name, id_num=id_num,
             dob=dob, symp_date=symp_date, confirm_date=confirm_date)
 
+            new_case.save()
+            new_case.event_set.add(*events)
+            new_case.save()
             
-
             try:
                 new_case.save()
                 return HttpResponseRedirect(reverse('success'))
@@ -95,7 +98,7 @@ def add_event_view(request):
                 new_event = Event(name=name, location=location,
                 address=address, x_coor=x_coor, y_coor=y_coor,
                 event_date=event_date, description=description)
-                
+
                 new_event.save()
                 new_event.case.add(*cases)
                 new_event.save()
