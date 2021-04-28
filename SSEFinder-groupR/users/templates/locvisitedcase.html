@@ -1,0 +1,7 @@
+<h1>Showing all orders by {{ case.case_no }}</h1>
+
+{% for event in event_list %}
+  <li>[{{ event.name }}] {{ event.location }}
+  </li>
+
+{% endfor %}
