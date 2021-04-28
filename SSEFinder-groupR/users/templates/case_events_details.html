@@ -2,6 +2,9 @@
 <form action="{% url 'add_event' %}" method="get">
     <input style="font-size:300%;" type="submit" value="Click to add more Events visited by case">
 </form>
+<form action="{% url 'home' %}" method="get">
+    <input style="font-size:300%;" type="submit" value="Click to return to Homepage">
+</form>
 <ul>
 {% for event in case_events_details %}
   <h3>Event Name: {{ event.name }} </h3>
