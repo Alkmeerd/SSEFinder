@@ -1,11 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.urls import reverse
 from urllib.parse import quote
 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 from .models import Event, Case
-from .forms import add_event_form, add_case_form
+from .forms import add_event_form, add_case_form, CreateUserForm, LoginForm
 
 import json, requests
 
@@ -14,10 +18,91 @@ import json, requests
 def user_authentication(request):
     return HttpResponse("User authentication")
 
+'''def register_page(request):
+    if request.user.is_authenticated():
+        return redirect('home')
+    else:
+        form = CreateUserForm()
+
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('login')
+
+        context = {'form':form}
+        return render(request, 'register.html', context)'''
+
+def register_page(request):
+    
+    form = CreateUserForm()
+
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+
+    context = {'form':form}
+    return render(request, 'register.html', context)
+
+
+'''def login_page(request):
+
+    if request.user.is_authenticated():
+        return redirect('home')
+
+    else:
+        form = LoginForm(request.POST)
+    
+    if request.method == 'POST':
+        if form.is_valid():
+
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                return HttpResponse("User authentication Failed")
+
+    context = {'form':form}
+    return render(request, 'login.html', context)'''
+
+def login_page(request):
+    form = LoginForm(request.POST)
+    
+    if request.method == 'POST':
+        if form.is_valid():
+
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                return HttpResponse("User authentication Failed")
+
+    context = {'form':form}
+    return render(request, 'login.html', context)
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+#@login_required(login_url='login')
 class home_page_view(ListView):
     model = Case
     template_name = 'home_page.html'
 
+#@login_required(login_url='login')
 class ViewLocCase(TemplateView):
     template_name = "case_events_details.html"
     def get_context_data(self, **kwargs):
@@ -27,6 +112,7 @@ class ViewLocCase(TemplateView):
         context['case_events_details'] = Event.objects.filter(case = case)
         return context
 
+#@login_required(login_url='login')
 def add_case_view(request):
     # If this is a POST request then process the Form data
     if request.method == 'POST':
@@ -66,7 +152,7 @@ def add_case_view(request):
     context = {'form': form}
     return render(request, 'add_case.html', context)
 
-
+#@login_required(login_url='login')
 def add_event_view(request):
 
     # If this is a POST request then process the Form data
@@ -124,9 +210,10 @@ def add_event_view(request):
     context = {'form': form}
     return render(request, 'add_event.html', context)
 
-
+#@login_required(login_url='login')
 class success_view(TemplateView):
     template_name = 'success.html'
 
+#@login_required(login_url='login')
 class error_view(TemplateView):
     template_name = 'error.html'

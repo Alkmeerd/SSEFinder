@@ -3,6 +3,10 @@ from django.utils.safestring import mark_safe
 
 from .models import Case, Event
 
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+from django.contrib.auth.models import User
+
 class add_case_form(forms.Form):
     case_no = forms.IntegerField(label = mark_safe('Case Number'))
     name = forms.CharField(label = mark_safe('Person Name'))
@@ -21,3 +25,16 @@ class add_event_form(forms.Form):
     description = forms.CharField(label = mark_safe('Brief Description'), widget=forms.Textarea)
 
     cases = forms.ModelMultipleChoiceField(queryset=Case.objects.all(), widget=forms.CheckboxSelectMultiple)
+
+class CreateUserForm(UserCreationForm):
+    chp_staff_no = forms.CharField(max_length=6)
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label = mark_safe('Username'))
+    password = forms.CharField(label = mark_safe('Password'))

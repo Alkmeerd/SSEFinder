@@ -25,3 +25,8 @@
   {% empty %}
   <li>No case is recorded</li>
   {% endfor %}
+
+
+<form action="{% url 'logout' %}" method="get">
+    <input style="font-size:100%;" type="submit" value="Logout">
+</form>
