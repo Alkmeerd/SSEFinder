@@ -18,20 +18,6 @@ import json, requests
 def user_authentication(request):
     return HttpResponse("User authentication")
 
-'''def register_page(request):
-    if request.user.is_authenticated():
-        return redirect('home')
-    else:
-        form = CreateUserForm()
-
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('login')
-
-        context = {'form':form}
-        return render(request, 'register.html', context)'''
 
 def register_page(request):
     
@@ -47,35 +33,11 @@ def register_page(request):
                 new_user = Users(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email_ad=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], chp_staff_no=form.cleaned_data['chp_staff_no'])
                 new_user.save()
                 return redirect('login')
+                #return render(request, 'login.html')
 
         context = {'form':form}
         return render(request, 'register.html', context)
 
-
-'''def login_page(request):
-
-    if request.user.is_authenticated():
-        return redirect('home')
-
-    else:
-        form = LoginForm(request.POST)
-    
-    if request.method == 'POST':
-        if form.is_valid():
-
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-
-            user = authenticate(request, username=username, password=password)
-
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                return HttpResponse("User authentication Failed")
-
-    context = {'form':form}
-    return render(request, 'login.html', context)'''
 
 def login_page(request):
 
@@ -94,7 +56,7 @@ def login_page(request):
 
                 if user is not None:
                     login(request, user)
-                    return redirect('home')
+                    return redirect('/')
                 else:
                     return HttpResponse("User authentication Failed")
 
@@ -113,6 +75,7 @@ def home_page_view(request):
     context = {'object_list' : case}
     return render(request, 'home_page.html', context)
 
+
 '''#@login_required(login_url='login')
 class ViewLocCase(TemplateView):
     template_name = "case_events_details.html"
@@ -123,11 +86,13 @@ class ViewLocCase(TemplateView):
         context['case_events_details'] = Event.objects.filter(case = case)
         return context '''
 
+
 @login_required(login_url='login')
 def ViewLocCase(request, case=None):
     events = Event.objects.filter(case=case)
     context = {'case_events_details' : events, 'case' : case} 
     return render(request, 'case_events_details.html', context)
+
 
 @login_required(login_url='login')
 def add_case_view(request):
@@ -168,6 +133,7 @@ def add_case_view(request):
 
     context = {'form': form}
     return render(request, 'add_case.html', context)
+
 
 @login_required(login_url='login')
 def add_event_view(request):
@@ -227,9 +193,11 @@ def add_event_view(request):
     context = {'form': form}
     return render(request, 'add_event.html', context)
 
+
 @login_required(login_url='login')
 def success_view(request):
     return render(request, 'success.html')
+
 
 @login_required(login_url='login')
 def error_view(request):

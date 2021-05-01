@@ -27,6 +27,7 @@
   {% endfor %}
 
 
+<p>Logged in as {{ user.username }}</p>
 <form action="{% url 'logout' %}" method="get">
     <input style="font-size:100%;" type="submit" value="Logout">
 </form>
