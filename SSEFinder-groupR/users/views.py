@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from .models import Event, Case
+from .models import Event, Case, Users
 from .forms import add_event_form, add_case_form, CreateUserForm, LoginForm
 
 import json, requests
@@ -41,6 +41,8 @@ def register_page(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            new_user = Users(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email_ad=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], chp_staff_no=form.cleaned_data['chp_staff_no'])
+            new_user.save()
             return redirect('login')
 
     context = {'form':form}
@@ -97,12 +99,14 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
-#@login_required(login_url='login')
-class home_page_view(ListView):
-    model = Case
-    template_name = 'home_page.html'
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
+def home_page_view(request):
+    case = Case.objects.all()
+    context = {'object_list' : case}
+    return render(request, 'home_page.html', context)
+
+'''#@login_required(login_url='login')
 class ViewLocCase(TemplateView):
     template_name = "case_events_details.html"
     def get_context_data(self, **kwargs):
@@ -110,9 +114,15 @@ class ViewLocCase(TemplateView):
 
         context = super().get_context_data(**kwargs)
         context['case_events_details'] = Event.objects.filter(case = case)
-        return context
+        return context '''
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
+def ViewLocCase(request, case=None):
+    events = Event.objects.filter(case=case)
+    context = {'case_events_details' : events, 'case' : case} 
+    return render(request, 'case_events_details.html', context)
+
+@login_required(login_url='login')
 def add_case_view(request):
     # If this is a POST request then process the Form data
     if request.method == 'POST':
@@ -152,7 +162,7 @@ def add_case_view(request):
     context = {'form': form}
     return render(request, 'add_case.html', context)
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def add_event_view(request):
 
     # If this is a POST request then process the Form data
@@ -210,10 +220,10 @@ def add_event_view(request):
     context = {'form': form}
     return render(request, 'add_event.html', context)
 
-#@login_required(login_url='login')
-class success_view(TemplateView):
-    template_name = 'success.html'
+@login_required(login_url='login')
+def success_view(request):
+    return render(request, 'success.html')
 
-#@login_required(login_url='login')
-class error_view(TemplateView):
-    template_name = 'error.html'
+@login_required(login_url='login')
+def error_view(request):
+    return render(request, 'error.html')
