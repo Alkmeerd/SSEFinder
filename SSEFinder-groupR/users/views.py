@@ -35,18 +35,21 @@ def user_authentication(request):
 
 def register_page(request):
     
-    form = CreateUserForm()
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
+        form = CreateUserForm()
 
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            new_user = Users(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email_ad=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], chp_staff_no=form.cleaned_data['chp_staff_no'])
-            new_user.save()
-            return redirect('login')
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                new_user = Users(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email_ad=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], chp_staff_no=form.cleaned_data['chp_staff_no'])
+                new_user.save()
+                return redirect('login')
 
-    context = {'form':form}
-    return render(request, 'register.html', context)
+        context = {'form':form}
+        return render(request, 'register.html', context)
 
 
 '''def login_page(request):
@@ -75,24 +78,28 @@ def register_page(request):
     return render(request, 'login.html', context)'''
 
 def login_page(request):
-    form = LoginForm(request.POST)
-    
-    if request.method == 'POST':
-        if form.is_valid():
 
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
+        form = LoginForm(request.POST)
+        
+        if request.method == 'POST':
+            if form.is_valid():
 
-            user = authenticate(request, username=username, password=password)
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
 
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                return HttpResponse("User authentication Failed")
+                user = authenticate(request, username=username, password=password)
 
-    context = {'form':form}
-    return render(request, 'login.html', context)
+                if user is not None:
+                    login(request, user)
+                    return redirect('home')
+                else:
+                    return HttpResponse("User authentication Failed")
+
+        context = {'form':form}
+        return render(request, 'login.html', context)
 
 
 def logout_user(request):
