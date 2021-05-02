@@ -206,7 +206,7 @@ def add_event_view(request):
 
 
             api_endpoint = 'https://geodata.gov.hk/gs/api/v1.0.0/locationSearch?q='
-            querystring = quote(f'{name} {location}')
+            querystring = quote(location)
             response = requests.get(api_endpoint + querystring)
 
             # success retrieval
