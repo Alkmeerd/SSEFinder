@@ -4,7 +4,12 @@
   <li> Case Number: {{ case.case_no }} </li>
   <li> Date of onset of symptoms: {{ case.symp_date }}</li>
 </ul>
+
+{% empty %}
+
+    <p><b>No possible infected found</b></p>
 {% endfor %}
+
 
 
 
@@ -14,6 +19,9 @@
   <li> Case Number: {{ case.case_no }} </li>
   <li> Date of onset of symptoms:  {{ case.symp_date }}</li>
 </ul>
+
+{% empty %}
+<p><b>No possible infector found</b></p>
 {% endfor %}
 
 
