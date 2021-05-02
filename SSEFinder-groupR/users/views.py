@@ -83,7 +83,7 @@ def ViewLocCase(request, case):
     events = Event.objects.filter(case=case)
     display_case = Case.objects.get(case_no=case)
     context = {'case_events_details' : events, 'case' : display_case} 
-    print(type(case))
+   
     return render(request, 'case_events_details.html', context)
 
 
@@ -225,7 +225,6 @@ def add_event_view(request):
 @login_required(login_url='login')
 def SSE_date_range(request):
     if request.method == 'POST':
-        print("1")
 
         # Create a form object and populate it with data from the request (binding):
         form = DateRangeForm(request.POST)
@@ -237,17 +236,14 @@ def SSE_date_range(request):
             temp_list = Event.objects.filter(event_date__range=[from_date, to_date])
             SSE_list = temp_list.annotate(num_case = Count('case')).filter(num_case__gte=6)
 
-            print(SSE_list)
 
             for i in SSE_list:
-                print(len(i.case.all()))
 
             context = {'form': form, 'case_events_details' : SSE_list}
             return render(request, 'date_range.html', context)
 
     else:
         form = DateRangeForm
-        print("2")
 
     context = {'form': form}
     return render(request, 'date_range.html', context)
