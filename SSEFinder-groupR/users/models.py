@@ -25,7 +25,6 @@ class Case(models.Model):
         return str(self.case_no)
 
 class Event(models.Model):
-
     name = models.CharField(max_length=500)
     location = models.CharField(max_length=500)
     address = models.CharField(max_length=1000)
@@ -37,4 +36,4 @@ class Event(models.Model):
     case = models.ManyToManyField(Case)
 
     def __str__(self):
-        return self.name
+        return (self.name + ", " + self.location + ", " + str(self.event_date))
