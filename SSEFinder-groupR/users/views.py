@@ -119,8 +119,6 @@ def add_case_view(request):
                 dt_14_days_before_onset = symp_date - timedelta(14)
                 if (event_val < dt_14_days_before_onset):
                     return HttpResponseRedirect(reverse('error'))
-                else:
-                    print("Yes")
 
             new_case = Case(case_no=case_no, name=name, id_num=id_num,
             dob=dob, symp_date=symp_date, confirm_date=confirm_date)
@@ -171,8 +169,6 @@ def add_event_view(request):
                 dt_14_days_before_onset = symp_val - timedelta(14)
                 if (event_date < dt_14_days_before_onset):
                     return HttpResponseRedirect(reverse('error'))
-                else:
-                    print("Yes")
 
 
             api_endpoint = 'https://geodata.gov.hk/gs/api/v1.0.0/locationSearch?q='
