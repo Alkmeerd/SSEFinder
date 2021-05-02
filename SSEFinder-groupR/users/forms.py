@@ -36,3 +36,8 @@ class CreateUserForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.CharField(label = mark_safe('Username'))
     password = forms.CharField(label = mark_safe('Password'))
+
+class DateRangeForm(forms.Form):
+    from_date = forms.DateField(label = mark_safe('From (yyyy-mm-dd)'))
+    to_date = forms.DateField(label = mark_safe('To (yyyy-mm-dd)'))
+

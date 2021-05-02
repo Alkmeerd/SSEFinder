@@ -10,6 +10,10 @@
     <input style="font-size:100%;" type="submit" value="Click to add New Event">
 </form>
 
+<form action="{% url 'date_range' %}" method="get">
+  <input style="font-size:100%;" type="submit" value="Click to view SSEs">
+</form>
+
   {% for case in object_list %}
   <a href="{% url 'case_events_details' case %}">
     <h3>Case ID: {{ case.case_no }}</h3>

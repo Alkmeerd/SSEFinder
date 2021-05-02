@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
 
 from .models import Event, Case, Users
-from .forms import add_event_form, add_case_form, CreateUserForm, LoginForm
+from .forms import add_event_form, add_case_form, CreateUserForm, LoginForm, DateRangeForm
 
 import json, requests
 
@@ -215,6 +215,22 @@ def add_event_view(request):
 
     context = {'form': form}
     return render(request, 'add_event.html', context)
+
+@login_required(login_url='login')
+def SSE_date_range(request):
+    if request.method == 'POST':
+        # Create a form object and populate it with data from the request (binding):
+        form = DateRangeForm(request.POST)
+
+        if form.is_valid():
+            temp_list = Event.objects.all()
+            print(temp_list)
+
+    else:
+        form = DateRangeForm
+
+    context = {'form': form}
+    return render(request, 'date_range.html', context)
 
 
 @login_required(login_url='login')

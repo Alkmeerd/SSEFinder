@@ -16,4 +16,5 @@ urlpatterns = [
     path('error/', views.error_view, name='error'),
 
     path('case_events_details/<int:case>', views.ViewLocCase, name='case_events_details'),
+    path('date_range/', views.SSE_date_range, name='date_range'),
 ]
