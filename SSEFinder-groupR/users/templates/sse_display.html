@@ -1,7 +1,7 @@
 <h1>Showing all the possible infected by event :{{ event}}</h1>
 {% for case in infected %}
 <ul>
-  <li> Case Number: {{ case.case_no }} </li>
+    <a href="{% url 'case_events_details' case %}"><li> Case Number: {{ case.case_no }} </li></a>
   <li> Date of onset of symptoms: {{ case.symp_date }}</li>
 </ul>
 
@@ -16,7 +16,7 @@
 <h1>Showing all the possible infector by event :{{ event }}</h1>
 {% for case in infector %}
 <ul>
-  <li> Case Number: {{ case.case_no }} </li>
+    <a href="{% url 'case_events_details' case %}"><li> Case Number: {{ case.case_no }} </li></a>
   <li> Date of onset of symptoms:  {{ case.symp_date }}</li>
 </ul>
 
