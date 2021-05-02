@@ -226,7 +226,7 @@ def SSE_date_range(request):
             to_date = form.cleaned_data.get('to_date')
 
             temp_list = Event.objects.filter(event_date__range=[from_date, to_date])
-            SSE_list = temp_list.annotate(num_case = Count('case')).filter(num_case__gte=0)
+            SSE_list = temp_list.annotate(num_case = Count('case')).filter(num_case__gte=6)
 
             print(SSE_list)
 
@@ -245,11 +245,6 @@ def SSE_date_range(request):
 
     context = {'form': form}
     return render(request, 'date_range.html', context)
-
-
-#@login_required(login_url='login')
-#def sse_display(request):
-    
 
 @login_required(login_url='login')
 def success_view(request):
