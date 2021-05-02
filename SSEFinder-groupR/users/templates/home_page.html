@@ -1,31 +1,24 @@
-<h1> SSEFinder </h1>
+<h1> SSEFinder - Homepage</h1>
 <h2> Group R  </h2>
-<h1> Home Page </h1>
-
-<form action="{% url 'add_case' %}" method="get">
-    <input style="font-size:100%;" type="submit" value="Click to Add a New Case">
-</form>
-
-<form action="{% url 'add_event' %}" method="get">
-    <input style="font-size:100%;" type="submit" value="Click to add New Event">
-</form>
 
 <form action="{% url 'date_range' %}" method="get">
   <input style="font-size:100%;" type="submit" value="Click to view SSEs">
 </form>
 
-  {% for case in object_list %}
+
+<form action="{% url 'add_case' %}" method="get" style = "display:inline;">
+    <input style="font-size:100%;" type="submit" value="Add a New Case">
+</form>
+
+<form action="{% url 'add_event' %}" method="get" style = "display:inline;">
+    <input style="font-size:100%;" type="submit" value="Add a New Event">
+</form>
+
+{% for case in object_list %}
   <a href="{% url 'case_events_details' case %}">
-    <h3>Case ID: {{ case.case_no }}</h3>
+    <h4>Case ID: {{ case.case_no }}</h4>
   </a>
-    <ul>Person's Name: {{ case.name }}</ul>
-    <ul>Identity Document Number: {{ case.id_num }}</ul>
-    <ul>Date of Birth: {{ case.dob }}</ul>
-    <ul>Date of Onset: {{ case.symp_date }}</ul>
-    <ul>Date of Case Confirmed: {{ case.confirm_date }}</ul>
 
-
-  <hr/>
   {% empty %}
   <li>No case is recorded</li>
   {% endfor %}
@@ -35,3 +28,4 @@
 <form action="{% url 'logout' %}" method="get">
     <input style="font-size:100%;" type="submit" value="Logout">
 </form>
+

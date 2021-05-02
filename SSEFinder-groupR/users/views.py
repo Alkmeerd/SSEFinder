@@ -78,21 +78,12 @@ def home_page_view(request):
     return render(request, 'home_page.html', context)
 
 
-'''#@login_required(login_url='login')
-class ViewLocCase(TemplateView):
-    template_name = "case_events_details.html"
-    def get_context_data(self, **kwargs):
-        case = self.kwargs['case']
-
-        context = super().get_context_data(**kwargs)
-        context['case_events_details'] = Event.objects.filter(case = case)
-        return context '''
-
-
 @login_required(login_url='login')
 def ViewLocCase(request, case):
     events = Event.objects.filter(case=case)
-    context = {'case_events_details' : events, 'case' : case} 
+    display_case = Case.objects.get(case_no=case)
+    context = {'case_events_details' : events, 'case' : display_case} 
+    print(type(case))
     return render(request, 'case_events_details.html', context)
 
 
@@ -230,6 +221,7 @@ def add_event_view(request):
     context = {'form': form}
     return render(request, 'add_event.html', context)
 
+
 @login_required(login_url='login')
 def SSE_date_range(request):
     if request.method == 'POST':
@@ -250,8 +242,6 @@ def SSE_date_range(request):
             for i in SSE_list:
                 print(len(i.case.all()))
 
-            
-
             context = {'form': form, 'case_events_details' : SSE_list}
             return render(request, 'date_range.html', context)
 
@@ -259,9 +249,9 @@ def SSE_date_range(request):
         form = DateRangeForm
         print("2")
 
-
     context = {'form': form}
     return render(request, 'date_range.html', context)
+
 
 @login_required(login_url='login')
 def success_view(request):

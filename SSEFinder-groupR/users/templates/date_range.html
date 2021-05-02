@@ -8,13 +8,17 @@
 
 
 <ul>
+
 {% for event in case_events_details %}
-<a href="{% url 'sse_display' event.pk %}">
-  <h3>Event Name: {{ event.name }} </h3>
-</a>
-          <ul>Location: {{ event.location }}</ul>
-          <ul>Address: {{ event.address }}</ul>
-          {% empty %}
-            <li>No events visited by case.</li>
+
+  <a href="{% url 'sse_display' event.pk %}"> <h3>Event: {{ event }} </h3> </a>
+
+  <ul>Name: {{ event.name }}</ul>
+  <ul>Location: {{ event.location }}</ul>
+  <ul>Address: {{ event.address }}</ul>
+  
+  <hr>
+{% empty %}
+  <li>No events visited by case.</li>
 {% endfor %}
 </ul>
