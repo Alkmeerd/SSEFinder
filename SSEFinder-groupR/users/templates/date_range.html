@@ -9,10 +9,15 @@
 
 <ul>
 {% for event in case_events_details %}
-<h3>Event Name: {{ event.name }} </h3>
-          <ul>Location: {{ event.location }}</ul>
-          <ul>Address: {{ event.address }}</ul>
-          {% empty %}
-            <li>No events visited by case.</li>
+  
+  <h3>Event: {{ event }} </h3>
+  <ul>Name: {{ event.name }}</ul>
+  <ul>Location: {{ event.location }}</ul>
+  <ul>Address: {{ event.address }}</ul>
+  <hr>
+  
+{% empty %}
+  <li>No events visited by case.</li>
+
 {% endfor %}
 </ul>
