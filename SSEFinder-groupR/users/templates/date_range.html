@@ -5,3 +5,14 @@
     {{ form.as_p }}
     <br><br> <input style="font-size:100%;" type="submit" value="Search">
 </form>
+
+
+<ul>
+{% for event in case_events_details %}
+<h3>Event Name: {{ event.name }} </h3>
+          <ul>Location: {{ event.location }}</ul>
+          <ul>Address: {{ event.address }}</ul>
+          {% empty %}
+            <li>No events visited by case.</li>
+{% endfor %}
+</ul>

@@ -17,5 +17,5 @@ urlpatterns = [
 
     path('case_events_details/<int:case>', views.ViewLocCase, name='case_events_details'),
     path('date_range/', views.SSE_date_range, name='date_range'),
-    path('sse_display/', views.sse_display, name='sse_display'),
+    #path('sse_display/', views.sse_display, name='sse_display'),
 ]

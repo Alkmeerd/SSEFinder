@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.urls import reverse
 from urllib.parse import quote
+from django.db.models import Count
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -225,13 +226,17 @@ def SSE_date_range(request):
             to_date = form.cleaned_data.get('to_date')
 
             temp_list = Event.objects.filter(event_date__range=[from_date, to_date])
-            print(temp_list)
+            SSE_list = temp_list.annotate(num_case = Count('case')).filter(num_case__gte=0)
 
-            for i in temp_list: 
-                if (len(i.case.all()) >= 6):
-                    SSE_list.append(i)
+            print(SSE_list)
 
-                return HttpResponseRedirect(reverse('sse_display'))   
+            for i in SSE_list:
+                print(len(i.case.all()))
+
+            
+
+            context = {'form': form, 'case_events_details' : SSE_list}
+            return render(request, 'date_range.html', context)
 
     else:
         form = DateRangeForm
@@ -240,6 +245,7 @@ def SSE_date_range(request):
 
     context = {'form': form}
     return render(request, 'date_range.html', context)
+
 
 #@login_required(login_url='login')
 #def sse_display(request):
