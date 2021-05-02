@@ -9,7 +9,7 @@
 
 <ul>
 {% for event in case_events_details %}
-<a href='https://github.com/shreeya5/G31-ENGG1340-'>
+<a href="{% url 'sse_display' event.pk %}">
   <h3>Event Name: {{ event.name }} </h3>
 </a>
           <ul>Location: {{ event.location }}</ul>

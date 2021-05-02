@@ -90,10 +90,27 @@ class ViewLocCase(TemplateView):
 
 
 @login_required(login_url='login')
-def ViewLocCase(request, case=None):
+def ViewLocCase(request, case):
     events = Event.objects.filter(case=case)
     context = {'case_events_details' : events, 'case' : case} 
     return render(request, 'case_events_details.html', context)
+
+
+@login_required(login_url='login')
+def sse_display(request, event):
+
+    #possible infected
+    event_date = Event.objects.get(pk=event).event_date 
+    start_infected, end_infected = event_date+timedelta(2), event_date+timedelta(14)
+    infected = Case.objects.filter(event=event, symp_date__range=[start_infected, end_infected])
+
+    #possible infector
+    infector = Case.objects.filter(event=event, symp_date__lt = event_date+timedelta(3))
+
+    context = {'infected' : infected, 'infector': infector, 'event' : Event.objects.get(pk=event)} 
+    return render(request, 'sse_display.html', context)
+
+
 
 
 @login_required(login_url='login')
