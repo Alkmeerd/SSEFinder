@@ -7,6 +7,7 @@ from urllib.parse import quote
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from datetime import date, timedelta
 
 from .models import Event, Case, Users
 from .forms import add_event_form, add_case_form, CreateUserForm, LoginForm
@@ -109,6 +110,17 @@ def add_case_view(request):
             symp_date = form.cleaned_data.get('symp_date')
             confirm_date = form.cleaned_data.get('confirm_date')
             events = form.cleaned_data.get('events')
+            
+            
+            for i in events:
+                event_list = Event.objects.filter(name = i.name).values_list('event_date', flat=True)
+                for i in event_list:
+                    event_val = i
+                dt_14_days_before_onset = symp_date - timedelta(14)
+                if (event_val < dt_14_days_before_onset):
+                    return HttpResponseRedirect(reverse('error'))
+                else:
+                    print("Yes")
 
             new_case = Case(case_no=case_no, name=name, id_num=id_num,
             dob=dob, symp_date=symp_date, confirm_date=confirm_date)
@@ -151,6 +163,17 @@ def add_event_view(request):
             event_date = form.cleaned_data.get('event_date')
             description = form.cleaned_data.get('description')
             cases = form.cleaned_data.get('cases')
+            
+            for j in cases:
+                symp_list = Case.objects.filter(case_no = j.case_no).values_list('symp_date', flat=True)
+                for i in symp_list:
+                    symp_val = i
+                dt_14_days_before_onset = symp_val - timedelta(14)
+                if (event_date < dt_14_days_before_onset):
+                    return HttpResponseRedirect(reverse('error'))
+                else:
+                    print("Yes")
+
 
             api_endpoint = 'https://geodata.gov.hk/gs/api/v1.0.0/locationSearch?q='
             querystring = quote(f'{name} {location}')
