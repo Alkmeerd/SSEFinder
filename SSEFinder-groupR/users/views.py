@@ -237,7 +237,7 @@ def SSE_date_range(request):
             SSE_list = temp_list.annotate(num_case = Count('case')).filter(num_case__gte=6)
 
 
-            for i in SSE_list:
+            #for i in SSE_list:
 
             context = {'form': form, 'case_events_details' : SSE_list}
             return render(request, 'date_range.html', context)
