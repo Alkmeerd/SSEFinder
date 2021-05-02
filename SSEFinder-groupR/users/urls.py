@@ -12,6 +12,7 @@ urlpatterns = [
     path('', views.home_page_view, name='home'),
     path('add_case/', views.add_case_view, name='add_case'),
     path('add_event/', views.add_event_view, name='add_event'),
+    path('link_event/<int:case>', views.link_event_view, name='link_event'),
     path('success/', views.success_view, name='success'),
     path('error/', views.error_view, name='error'),
 

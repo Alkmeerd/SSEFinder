@@ -8,6 +8,11 @@
     <input style="font-size:100%;" type="submit" value="Add new Events">
 </form>
 
+<form action="{% url 'link_event' case.pk %}" method="get" style = "display:inline;">
+    <input style="font-size:100%;" type="submit" value="Add existing Events">
+</form>
+
+
 <p>Person's Name: {{ case.name }}</p>
 <p>Identity Document Number: {{ case.id_num }}</p>
 <p>Date of Birth: {{ case.dob }}</p>

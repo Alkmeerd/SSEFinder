@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
 
 from .models import Event, Case, Users
-from .forms import add_event_form, add_case_form, CreateUserForm, LoginForm, DateRangeForm
+from .forms import add_event_form, link_event_form, add_case_form, CreateUserForm, LoginForm, DateRangeForm
 
 import json, requests
 
@@ -102,6 +102,31 @@ def sse_display(request, event):
     return render(request, 'sse_display.html', context)
 
 
+@login_required(login_url='login')
+def link_event_view(request, case):
+
+    if request.method == 'POST':
+        form = link_event_form(request.POST)
+
+        if form.is_valid():
+            case = Case.objects.get(pk=case)
+            events = form.cleaned_data.get('events')
+            case.event_set.add(*events)
+
+            try:
+                case.save()
+                return HttpResponseRedirect(reverse('success'))
+            except:
+                return HttpResponseRedirect(reverse('error'))
+
+        else:
+            return HttpResponseRedirect(reverse('error'))
+            
+    else:
+        form = link_event_form
+
+    context = {'form': form}
+    return render(request, 'link_case.html', context)
 
 
 @login_required(login_url='login')

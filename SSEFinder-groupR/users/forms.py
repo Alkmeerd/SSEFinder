@@ -26,6 +26,9 @@ class add_event_form(forms.Form):
 
     cases = forms.ModelMultipleChoiceField(queryset=Case.objects.all(), widget=forms.CheckboxSelectMultiple)
 
+class link_event_form(forms.Form):
+    events = forms.ModelMultipleChoiceField(queryset=Event.objects.all(), widget=forms.CheckboxSelectMultiple)
+
 class CreateUserForm(UserCreationForm):
     chp_staff_no = forms.CharField(max_length=6)
 
