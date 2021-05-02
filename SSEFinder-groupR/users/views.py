@@ -215,15 +215,22 @@ def add_event_view(request):
 @login_required(login_url='login')
 def SSE_date_range(request):
     if request.method == 'POST':
+        print("1")
+
         # Create a form object and populate it with data from the request (binding):
         form = DateRangeForm(request.POST)
 
         if form.is_valid():
-            temp_list = Event.objects.all()
+            from_date = form.cleaned_data.get('from_date')
+            to_date = form.cleaned_data.get('to_date')
+
+            temp_list = Event.objects.filter(event_date__range=[from_date, to_date])
             print(temp_list)
 
     else:
         form = DateRangeForm
+        print("2")
+
 
     context = {'form': form}
     return render(request, 'date_range.html', context)

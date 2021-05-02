@@ -38,6 +38,6 @@ class LoginForm(forms.Form):
     password = forms.CharField(label = mark_safe('Password'))
 
 class DateRangeForm(forms.Form):
-    from_date = forms.DateField(label = mark_safe('From (yyyy-mm-dd)'))
-    to_date = forms.DateField(label = mark_safe('To (yyyy-mm-dd)'))
+    from_date = forms.CharField(label = mark_safe('From (yyyy-mm-dd)'))
+    to_date = forms.CharField(label = mark_safe('To (yyyy-mm-dd)'))
 
