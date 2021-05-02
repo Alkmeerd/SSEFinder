@@ -227,6 +227,12 @@ def SSE_date_range(request):
             temp_list = Event.objects.filter(event_date__range=[from_date, to_date])
             print(temp_list)
 
+            for i in temp_list: 
+                if (len(i.case.all()) >= 6):
+                    SSE_list.append(i)
+
+                return HttpResponseRedirect(reverse('sse_display'))   
+
     else:
         form = DateRangeForm
         print("2")
@@ -235,6 +241,9 @@ def SSE_date_range(request):
     context = {'form': form}
     return render(request, 'date_range.html', context)
 
+#@login_required(login_url='login')
+#def sse_display(request):
+    
 
 @login_required(login_url='login')
 def success_view(request):
