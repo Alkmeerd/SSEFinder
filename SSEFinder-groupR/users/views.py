@@ -77,11 +77,16 @@ def home_page(request):
         return render(request, 'home_page.html', context)
     else:
         case_no = request.POST['case']
-        return HttpResponseRedirect(reverse('case_details', kwargs={'case':case_no}))
+        try:
+            Case.objects.get(case_no = int(case_no))
+            return HttpResponseRedirect(reverse('case_details', kwargs={'case':case_no}))
+        except:
+            return HttpResponseRedirect(reverse('error'))
+            
 
 @login_required(login_url='login')
 def case_detail(request, case):
-    display_case = get_object_or_404(Case, pk=case)
+    display_case = Case.objects.get(case_no = case)
     events = Event.objects.filter(case=case)
 
     context = {'events' : events, 'case' : display_case} 
