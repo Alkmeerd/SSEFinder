@@ -15,8 +15,6 @@ from .forms import add_event_form, link_event_form, add_case_form, CreateUserFor
 
 import json, requests
 
-
-# Create your views here.
 def user_authentication(request):
     return HttpResponse("User authentication")
 
@@ -72,68 +70,26 @@ def logout_user(request):
 
 
 @login_required(login_url='login')
-def home_page_view(request):
+def home_page(request):
     case = Case.objects.all()
     context = {'object_list' : case}
     return render(request, 'home_page.html', context)
 
 
 @login_required(login_url='login')
-def ViewLocCase(request, case):
+def case_detail(request, case):
     events = Event.objects.filter(case=case)
     display_case = Case.objects.get(case_no=case)
-    context = {'case_events_details' : events, 'case' : display_case} 
+    context = {'events' : events, 'case' : display_case} 
    
-    return render(request, 'case_events_details.html', context)
-
-
-@login_required(login_url='login')
-def sse_display(request, event):
-
-    #possible infected
-    event_date = Event.objects.get(pk=event).event_date 
-    start_infected, end_infected = event_date+timedelta(2), event_date+timedelta(14)
-    infected = Case.objects.filter(event=event, symp_date__range=[start_infected, end_infected])
-
-    #possible infector
-    infector = Case.objects.filter(event=event, symp_date__lt = event_date+timedelta(3))
-
-    context = {'infected' : infected, 'infector': infector, 'event' : Event.objects.get(pk=event)} 
-    return render(request, 'sse_display.html', context)
-
-
-@login_required(login_url='login')
-def link_event_view(request, case):
-
-    if request.method == 'POST':
-        form = link_event_form(request.POST)
-
-        if form.is_valid():
-            case = Case.objects.get(pk=case)
-            events = form.cleaned_data.get('events')
-            case.event_set.add(*events)
-
-            try:
-                case.save()
-                return HttpResponseRedirect(reverse('success'))
-            except:
-                return HttpResponseRedirect(reverse('error'))
-
-        else:
-            return HttpResponseRedirect(reverse('error'))
-            
-    else:
-        form = link_event_form
-
-    context = {'form': form}
-    return render(request, 'link_case.html', context)
+    return render(request, 'case_details.html', context)
 
 
 @login_required(login_url='login')
 def add_case_view(request):
-    # If this is a POST request then process the Form data
+
     if request.method == 'POST':
-        # Create a form object and populate it with data from the request (binding):
+
         form = add_case_form(request.POST)
 
         if form.is_valid():
@@ -145,13 +101,10 @@ def add_case_view(request):
             confirm_date = form.cleaned_data.get('confirm_date')
             events = form.cleaned_data.get('events')
             
-            
             for i in events:
-                event_list = Event.objects.filter(name = i.name).values_list('event_date', flat=True)
-                for i in event_list:
-                    event_val = i
-                dt_14_days_before_onset = symp_date - timedelta(14)
-                if (event_val < dt_14_days_before_onset):
+                if ((symp_date - i.event_date) > timedelta(14)):
+                    return HttpResponseRedirect(reverse('error'))
+                if (i.event_date >= confirm_date):
                     return HttpResponseRedirect(reverse('error'))
 
             new_case = Case(case_no=case_no, name=name, id_num=id_num,
@@ -170,8 +123,6 @@ def add_case_view(request):
         else:
             return HttpResponseRedirect(reverse('error'))
 
-
-    # If this is a GET (or any other method) then create the default form.
     else:
         form = add_case_form
 
@@ -197,13 +148,10 @@ def add_event_view(request):
             cases = form.cleaned_data.get('cases')
             
             for j in cases:
-                symp_list = Case.objects.filter(case_no = j.case_no).values_list('symp_date', flat=True)
-                for i in symp_list:
-                    symp_val = i
-                dt_14_days_before_onset = symp_val - timedelta(14)
-                if (event_date < dt_14_days_before_onset):
+                if ((j.symp_date - event_date) > timedelta(14)):
                     return HttpResponseRedirect(reverse('error'))
-
+                if (event_date >= j.confirm_date):
+                    return HttpResponseRedirect(reverse('error'))
 
             api_endpoint = 'https://geodata.gov.hk/gs/api/v1.0.0/locationSearch?q='
             querystring = quote(location)
@@ -237,8 +185,6 @@ def add_event_view(request):
         else:
             return HttpResponseRedirect(reverse('error'))
 
-
-    # If this is a GET (or any other method) then create the default form.
     else:
         form = add_event_form
 
@@ -248,10 +194,44 @@ def add_event_view(request):
 
 
 @login_required(login_url='login')
-def SSE_date_range(request):
+def link_event_view(request, case):
+
+    if request.method == 'POST':
+        form = link_event_form(request.POST)
+
+        if form.is_valid():
+            case = Case.objects.get(pk=case)
+            events = form.cleaned_data.get('events')
+            case.event_set.add(*events)
+
+            for i in events:
+                if ((symp_date - i.event_date) > timedelta(14)):
+                    return HttpResponseRedirect(reverse('error'))
+
+                if (i.event_date >= confirm_date):
+                    return HttpResponseRedirect(reverse('error'))
+
+            try:
+                case.save()
+                return HttpResponseRedirect(reverse('success'))
+
+            except:
+                return HttpResponseRedirect(reverse('error'))
+
+        else:
+            return HttpResponseRedirect(reverse('error'))
+            
+    else:
+        form = link_event_form
+
+    context = {'form': form}
+    return render(request, 'link_case.html', context)
+
+
+@login_required(login_url='login')
+def sse_list(request):
     if request.method == 'POST':
 
-        # Create a form object and populate it with data from the request (binding):
         form = DateRangeForm(request.POST)
 
         if form.is_valid():
@@ -261,17 +241,30 @@ def SSE_date_range(request):
             temp_list = Event.objects.filter(event_date__range=[from_date, to_date])
             SSE_list = temp_list.annotate(num_case = Count('case')).filter(num_case__gte=6)
 
-
-            #for i in SSE_list:
-
             context = {'form': form, 'case_events_details' : SSE_list}
-            return render(request, 'date_range.html', context)
+            return render(request, 'sse_list.html', context)
 
     else:
-        form = DateRangeForm
+        form = DateRangeForm(initial = {'from_date': date.today(), 'to_date':date.today()})
 
     context = {'form': form}
-    return render(request, 'date_range.html', context)
+    return render(request, 'sse_list.html', context)
+
+
+@login_required(login_url='login')
+def sse_detail(request, event):
+
+    event_date = Event.objects.get(pk=event).event_date 
+
+    #possible infected
+    start_infected, end_infected = event_date+timedelta(2), event_date+timedelta(14)
+    infected = Case.objects.filter(event=event, symp_date__range=[start_infected, end_infected])
+
+    #possible infector
+    infector = Case.objects.filter(event=event, symp_date__lt = event_date+timedelta(3))
+
+    context = {'infected' : infected, 'infector': infector, 'event' : Event.objects.get(pk=event)} 
+    return render(request, 'sse_detail.html', context)
 
 
 @login_required(login_url='login')

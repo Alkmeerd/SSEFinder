@@ -1,8 +1,9 @@
 <h1> SSEFinder - Homepage</h1>
-<h2> Group R  </h2>
+<h2> Group R </h1>
 
-<form action="{% url 'date_range' %}" method="get">
-  <input style="font-size:100%;" type="submit" value="Click to view SSEs">
+
+<form action="{% url 'sse_list' %}" method="get">
+  <input style="font-size:100%;" type="submit" value="Click to View SSEs">
 </form>
 
 
@@ -15,7 +16,7 @@
 </form>
 
 {% for case in object_list %}
-  <a href="{% url 'case_events_details' case %}">
+  <a href="{% url 'case_details' case %}">
     <h4>Case ID: {{ case.case_no }}</h4>
   </a>
 
@@ -28,4 +29,3 @@
 <form action="{% url 'logout' %}" method="get">
     <input style="font-size:100%;" type="submit" value="Logout">
 </form>
-

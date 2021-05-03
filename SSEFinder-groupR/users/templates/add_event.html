@@ -1,7 +1,13 @@
+
+
 <h1> Add New Event </h1>
 
-<form action="" method="post">
-    {{ form.as_p }}
+<form action="" method="post" style = "display:inline;">
     {% csrf_token %}
-    <br><br> <input style="font-size:100%;" type="submit" value="Add">
+    {{ form.as_p }}
+    <br><br> <input style="font-size:100%;" type="submit" value="Confirm">
+</form>
+
+<form action="{% url 'home' %}" method="get" style = "display:inline;">
+    <input style="font-size:100%;" type="submit" value="Return to Homepage">
 </form>

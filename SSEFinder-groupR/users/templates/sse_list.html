@@ -1,0 +1,29 @@
+<h1> Superspreading events in this date range:</h1>
+
+<form action="" method="post" style = "display:inline;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br><br> <input style="font-size:100%;" type="submit" value="Search">
+</form>
+
+<form action="{% url 'home' %}" method="get" style = "display:inline;">
+    <input style="font-size:100%;" type="submit" value="Return to Homepage">
+</form>
+
+<ol>
+{% for event in case_events_details %}
+  <li>
+  <a href="{% url 'sse_detail' event.pk %}"> <h3> {{ event }} </h3> </a>
+  <ul>
+    <li>Name: {{ event.name }}</li>
+    <li>Location: {{ event.location }}</li>
+    <li>Date: {{ event.event_date }}</li>
+    <li>Cases connected: {{ event.case.all|join:", " }}  <b>(Total: {{event.case.count}})</b></li>
+  </ul>
+  </li>
+  <hr>
+{% empty %}
+    <p>No Superspreading Events between this date range.</p>
+{% endfor %}
+</ol>
+

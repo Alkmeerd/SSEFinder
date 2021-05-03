@@ -1,0 +1,38 @@
+<h1 >Case Number #{{ case }}</h1>
+
+<p>Person's Name: {{ case.name }}</p>
+<p>Identity Document Number: {{ case.id_num }}</p>
+<p>Date of Birth: {{ case.dob }}</p>
+<p>Date of Onset of symptoms: {{ case.symp_date }}</p>
+<p>Date of Confirmation of infection by testing: {{ case.confirm_date }}</p>
+
+<form action="{% url 'home' %}" method="get">
+    <input style="font-size:100%" type="submit" value="Return to Homepage">
+  </form>
+
+<form action="{% url 'add_event' %}" method="get" style = "display:inline;">
+    <input style="font-size:100%;" type="submit" value="Add new event">
+</form>
+
+<form action="{% url 'link_event' case.pk %}" method="get" style = "display:inline;">
+    <input style="font-size:100%;" type="submit" value="Link existing events">
+</form>
+
+<h2>Events attended by #{{ case }}</h2>
+<ol>
+{% for event in events %}
+<li>
+    <h3>Event Name: {{ event.name }} </h3>
+    <ul>
+        <li>Location: {{ event.location }}</li>
+        <li>Address: {{ event.address }}</li>
+        <li>X-Coordinate: {{ event.x_coor }}</li>
+        <li>Y-Coordinate: {{ event.y_coor }}</li>
+        <li>Date of Event: {{ event.event_date }}</li>
+        <li>Description: {{ event.description }}</li>
+    </ul>
+</li>
+  {% empty %}
+    <li>No events visited by case.</li>
+{% endfor %}
+</ol>

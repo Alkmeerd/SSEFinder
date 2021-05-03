@@ -1,7 +1,11 @@
-<h1> Add Existing Event </h1>
+<h1> Link Existing Event </h1>
 
-<form action="" method="post">
+<form action="" method="post" style = "display:inline;">
     {% csrf_token %}
     {{ form.as_p }}
-    <br><br> <input style="font-size:100%;" type="submit" value="Add">
+    <br><br> <input style="font-size:100%;" type="submit" value="Submit">
+</form>
+
+<form action="{% url 'home' %}" method="get" style = "display:inline;">
+    <input style="font-size:100%;" type="submit" value="Return to Homepage">
 </form>

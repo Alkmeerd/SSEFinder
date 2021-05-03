@@ -1,0 +1,45 @@
+
+
+<h1>Superspreading Event: </h1>
+
+<h3><i>{{ event }}</i></h3>
+
+<ul>
+  <li>Name: {{ event.name }}</li>
+  <li>Location: {{ event.location }}</li>
+  <li>Address: {{ event.address }}</li>
+  <li>X-Coordinate: {{ event.x_coor }}</li>
+  <li>Y-Coordinate: {{ event.y_coor }}</li>
+  <li>Date of Event: {{ event.event_date }}</li>
+  <li>Description: {{ event.description }}</li>
+</ul>
+
+<form action="{% url 'home' %}" method="get">
+  <input style="font-size:100%" type="submit" value="Return to Homepage">
+</form>
+
+<h2> All Possible Infectors</h2>
+{% for case in infector %}
+<ul>
+    <a href="{% url 'case_details' case %}"><li> Case #{{ case.case_no }} </li></a>
+  <li> Date of onset of symptoms:  {{ case.symp_date }}</li>
+  <li> Date of confirmation: {{ case.confirm_date }}</li> 
+</ul>
+
+{% empty %}
+<p><b>No possible infector found</b></p>
+{% endfor %}
+
+
+<h2> All Possible Infected</h2>
+{% for case in infected %}
+<ul>
+    <a href="{% url 'case_details' case %}"><li> Case #{{ case.case_no }} </li></a>
+  <li> Date of onset of symptoms: {{ case.symp_date }}</li>
+</ul>
+
+{% empty %}
+
+    <p><b>No possible infected found</b></p>
+{% endfor %}
+
