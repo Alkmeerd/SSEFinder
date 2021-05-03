@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.urls import reverse
@@ -71,19 +71,21 @@ def logout_user(request):
 
 @login_required(login_url='login')
 def home_page(request):
-    case = Case.objects.all()
-    context = {'object_list' : case}
-    return render(request, 'home_page.html', context)
-
+    if request.method == 'GET':
+        case = Case.objects.all()
+        context = {'object_list' : case}
+        return render(request, 'home_page.html', context)
+    else:
+        case_no = request.POST['case']
+        return HttpResponseRedirect(reverse('case_details', kwargs={'case':case_no}))
 
 @login_required(login_url='login')
 def case_detail(request, case):
+    display_case = get_object_or_404(Case, pk=case)
     events = Event.objects.filter(case=case)
-    display_case = Case.objects.get(case_no=case)
-    context = {'events' : events, 'case' : display_case} 
-   
-    return render(request, 'case_details.html', context)
 
+    context = {'events' : events, 'case' : display_case} 
+    return render(request, 'case_details.html', context)
 
 @login_required(login_url='login')
 def add_case_view(request):

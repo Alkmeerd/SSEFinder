@@ -2,7 +2,7 @@
 <h2> Group R </h1>
 
 
-<form action="{% url 'sse_list' %}" method="get">
+<form action="{% url 'sse_list' %}" method="get" style = "display:inline;">
   <input style="font-size:100%;" type="submit" value="Click to View SSEs">
 </form>
 
@@ -15,17 +15,44 @@
     <input style="font-size:100%;" type="submit" value="Add a New Event">
 </form>
 
-{% for case in object_list %}
-  <a href="{% url 'case_details' case %}">
-    <h4>Case ID: {{ case.case_no }}</h4>
-  </a>
+<hr>
 
-  {% empty %}
-  <li>No case is recorded</li>
-  {% endfor %}
+<h3> Show details of a case </h3>
+<form action="" method = "POST">
+  {% csrf_token %}
+  <label for="case">Enter case number:</label>
+  <input type="text" id="case" name="case">
+  <input type="submit" value="Go">
+</form>
 
 
+<form action="" method = "POST">
+  {% csrf_token %}
+  <label for="case">Case Number: </label>
+  <select id="case" name="case">
+      {% for case in object_list%}
+          <option value="{{case.case_no}}">{{case.case_no}}</option>
+      {% endfor %}
+  </select>
+  <input type="submit" value="Go">
+</form>
+
+<br>
 <p>Logged in as {{ user.username }}</p>
 <form action="{% url 'logout' %}" method="get">
     <input style="font-size:100%;" type="submit" value="Logout">
 </form>
+
+<hr>
+
+<ul>
+{% for case in object_list %}
+<li>
+  <a href="{% url 'case_details' case %}">
+    <h4>Case ID: {{ case.case_no }}</h4>
+  </a>
+</li>
+  {% empty %}
+  <li>No case is recorded</li>
+{% endfor %}
+</ul>
