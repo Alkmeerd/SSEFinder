@@ -10,33 +10,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
 
-from .models import Event, Case, Users
-from .forms import add_event_form, link_event_form, add_case_form, CreateUserForm, LoginForm, DateRangeForm
+from .models import Event, Case, CustomUser
+from .forms import add_event_form, link_event_form, add_case_form, LoginForm, DateRangeForm
 
 import json, requests
 
 def user_authentication(request):
     return HttpResponse("User authentication")
-
-
-def register_page(request):
-    
-    if request.user.is_authenticated:
-        return redirect('/')
-    else:
-        form = CreateUserForm()
-
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                new_user = Users(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email_ad=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], chp_staff_no=form.cleaned_data['chp_staff_no'])
-                new_user.save()
-                return redirect('login')
-                #return render(request, 'login.html')
-
-        context = {'form':form}
-        return render(request, 'register.html', context)
 
 
 def login_page(request):

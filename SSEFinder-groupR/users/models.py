@@ -1,17 +1,30 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
-# Create your models here.
-class Users(models.Model):
+from .managers import CustomUserManager
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=20, primary_key=True)
-    password = models.CharField(max_length=20)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
     chp_staff_no = models.CharField(max_length=6)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email_ad = models.CharField(max_length=500)
 
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
     def __str__(self):
         return self.username
+# Create your models here.
+
 
 class Case(models.Model):
     case_no = models.IntegerField(primary_key=True, unique=True)

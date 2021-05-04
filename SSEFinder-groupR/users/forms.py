@@ -1,11 +1,12 @@
 from django import forms
 from django.utils.safestring import mark_safe
 
-from .models import Case, Event
+from .models import *
 
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 class add_case_form(forms.Form):
     case_no = forms.IntegerField(label = mark_safe('Case Number'))
@@ -29,18 +30,27 @@ class add_event_form(forms.Form):
 class link_event_form(forms.Form):
     events = forms.ModelMultipleChoiceField(queryset=Event.objects.all(), widget=forms.CheckboxSelectMultiple)
 
-class CreateUserForm(UserCreationForm):
-    chp_staff_no = forms.CharField(max_length=6)
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'chp_staff_no']
 
 class LoginForm(forms.Form):
     username = forms.CharField(label = mark_safe('Username'))
-    password = forms.CharField(label = mark_safe('Password'))
+    password = forms.CharField(label = mark_safe('Password'), widget=forms.PasswordInput)
 
 class DateRangeForm(forms.Form):
     from_date = forms.CharField(label = mark_safe('From (yyyy-mm-dd)'))
     to_date = forms.CharField(label = mark_safe('To (yyyy-mm-dd)'))
+
+
+class CustomUserCreationForm(UserCreationForm):
+
+    class Meta(UserCreationForm):
+        model = CustomUser
+        fields = ('username','chp_staff_no', 'email_ad' , 'first_name', 'last_name')
+
+
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ('username','chp_staff_no', 'email_ad' , 'first_name', 'last_name')
+
 
