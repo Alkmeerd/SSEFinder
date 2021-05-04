@@ -15,6 +15,7 @@ urlpatterns = [
     path('link_event/<int:case>', views.link_event_view, name='link_event'),
     path('success/', views.success_view, name='success'),
     path('error/', views.error_view, name='error'),
+    path('error_record_exists/', views.error_record_exists_view, name='error_record_exists'),
 
     path('case_details/<int:case>', views.case_detail, name='case_details'),
     path('sse_list/', views.sse_list, name='sse_list'),

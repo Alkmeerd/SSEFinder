@@ -113,6 +113,11 @@ def add_case_view(request):
                     return HttpResponseRedirect(reverse('error'))
                 if (i.event_date >= confirm_date):
                     return HttpResponseRedirect(reverse('error'))
+        
+            cases_existing = Case.objects.all()
+            for i in cases_existing:
+                if (case_no == i.case_no):
+                    return HttpResponseRedirect(reverse('error_record_exists'))
 
             new_case = Case(case_no=case_no, name=name, id_num=id_num,
             dob=dob, symp_date=symp_date, confirm_date=confirm_date)
@@ -282,3 +287,7 @@ def success_view(request):
 @login_required(login_url='login')
 def error_view(request):
     return render(request, 'error.html')
+
+@login_required(login_url='login')
+def error_record_exists_view(request):
+    return render(request, 'error_record_exists.html')
