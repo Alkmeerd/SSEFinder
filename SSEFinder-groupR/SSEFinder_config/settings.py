@@ -33,7 +33,7 @@ SECRET_KEY = '5_r^h&ghr&okg%o*ldck^umi5qo!wohzig()ijsg#x#yyp4ya)'
 #DEBUG = env.bool('CHP_DEBUG', default=False)
 DEBUG = True
 
-ALLOWED_HOSTS = ['arcane-temple-33137.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['radiant-oasis-28832.herokuapp.com', 'arcane-temple-33137.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'SSEFinder_config.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    #'default': env.dj_db_url('DATABASE_URL')
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.dj_db_url('DATABASE_URL')
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 
