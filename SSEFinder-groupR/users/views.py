@@ -200,7 +200,7 @@ def link_event_view(request, case):
                 if ((case.symp_date - i.event_date) > timedelta(14)):
                     return HttpResponseRedirect(reverse('error'))
 
-                if (i.event_date >= confirm_date):
+                if (i.event_date >= case.confirm_date):
                     return HttpResponseRedirect(reverse('error'))
 
             try:
